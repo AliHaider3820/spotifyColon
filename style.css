@@ -540,18 +540,15 @@ input::placeholder {
     }
 
     .navList {
-        /* display: flex; */
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px;
-        position: absolute;
-        left: 60%;
-        top: 12px;
-        z-index: 1;
-        border: 2px solid rgb(185, 203, 206);
-        width: 37%;
-        background-color: black;
         display: none;
+    }
+
+    .hamburgerforSongs {
+        position: sticky;
+        top: -15px;
+        z-index: 1;
+        background-color: rgb(18, 18, 18);
+        
     }
 
     .login {
@@ -587,13 +584,14 @@ input::placeholder {
 
     .playerbtns {
         justify-content: start;
-        align-items: start;
 
     }
-    .card{
+
+    .card {
         width: 100%;
     }
-   .card > div> img{
+
+    .card>div>img {
         width: 320px;
         height: 150px;
     }
