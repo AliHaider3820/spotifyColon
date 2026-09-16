@@ -1,5 +1,9 @@
 {
     "tittle" : "cs",
     "description": "My CopyRight songs",
-    "imageSrc":"images/LOGO-AAA.JPEG" 
+    "imageSrc":"images/LOGO-AAA.jpeg",
+    "songs": [
+        "Lukrembo - Jay (freetouse.com).mp3",
+        "Piki - Momo Island (freetouse.com).mp3"
+    ]
 }
