@@ -1,5 +1,10 @@
 {
     "tittle" : "ncs",
     "description": "My NoncopyRight songs",
-    "imageSrc":"images/sceView.jpg" 
+    "imageSrc":"images/sceView.jpg",
+    "songs": [
+        "Calima - Glass Shop (freetouse.com).mp3",
+        "geoffharvey-every-step-is-special-564552.mp3",
+        "Hoffy Beats - Florida Keys (freetouse.com).mp3"
+    ]
 }
