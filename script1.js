@@ -33,7 +33,10 @@ function secondsToMinutesSeconds(seconds) {
 // Load MP3 files from the selected folder and rebuild the playlist.
 async function getSongs(folder) {
   currFolder = folder;
-  let response = await fetch(`http://127.0.0.1:5501/${currFolder}/`);
+  let response = await fetch(`/${currFolder}/`);
+  if (!response.ok) {
+    throw new Error(`Could not load songs from ${currFolder}/ (${response.status})`);
+  }
   let songData = await response.text();
   let div = document.createElement("div");
   div.innerHTML = songData;
@@ -87,7 +90,10 @@ function playMusic(track, pause = false) {
 
 }
 async function displayAlbum() {
-  let response = await fetch(`http://127.0.0.1:5501/songs/`);
+  let response = await fetch("/songs/");
+  if (!response.ok) {
+    throw new Error(`Could not load song folders (${response.status})`);
+  }
   let songData = await response.text();
   let div = document.createElement("div");
   div.innerHTML = songData;
@@ -98,12 +104,15 @@ async function displayAlbum() {
     const element = array[index];
  
     if (element.href.includes("/songs/")) {
-      let folder = element.href.split("/").slice(-2)[1];
+      let folder = element.href.split("/").filter(Boolean).pop();
       let cards = document.querySelector(".cards")
-      let response = await fetch(`http://127.0.0.1:5501/songs/${folder}/info.json`);
+      let response = await fetch(`/songs/${folder}/info.json`);
+      if (!response.ok) {
+        throw new Error(`Could not load metadata for ${folder} (${response.status})`);
+      }
       let songData = await response.json();
       cards.innerHTML = cards.innerHTML + `
-         <div data-folder="${songData.tittle}" class="card">
+         <div data-folder="${folder}" class="card">
                     <div>
                         <img src=${songData.imageSrc} alt="">
                         <div class="play">
@@ -240,4 +249,6 @@ async function main() {
   }
   )
 }
-main()
+main().catch((error) => {
+  console.error("Music player failed to start:", error);
+});
