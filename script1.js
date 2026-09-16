@@ -5,6 +5,7 @@ const previousBtn = document.querySelector("#previousBtn");
 const nextBtn = document.querySelector("#nextBtn");
 let songs;
 let currentSongIndex = 0;
+const albumFolders = ["cs", "emotional", "enjoy", "ncs", "romantic"];
 
 // Toggle playback and keep the main play button icon in sync with the audio state.
 playButton.addEventListener("click", () => {
@@ -33,22 +34,12 @@ function secondsToMinutesSeconds(seconds) {
 // Load MP3 files from the selected folder and rebuild the playlist.
 async function getSongs(folder) {
   currFolder = folder;
-  let response = await fetch(`/${currFolder}/`);
+  let response = await fetch(`/${currFolder}/info.json`);
   if (!response.ok) {
-    throw new Error(`Could not load songs from ${currFolder}/ (${response.status})`);
+    throw new Error(`Could not load song metadata from ${currFolder}/ (${response.status})`);
   }
-  let songData = await response.text();
-  let div = document.createElement("div");
-  div.innerHTML = songData;
-  let as = div.getElementsByTagName("a");
-
-  songs = [];
-  for (let index = 0; index < as.length; index++) {
-    const element = as[index];
-    if (element.href.endsWith(".mp3"))
-      songs.push(element.href.split(`/${currFolder}/`)[1])
-
-  }
+  let songData = await response.json();
+  songs = songData.songs;
   let playlist = document.querySelector(".listOfSongs");
   playlist.innerHTML = ""
   for (const item of songs) {
@@ -90,21 +81,7 @@ function playMusic(track, pause = false) {
 
 }
 async function displayAlbum() {
-  let response = await fetch("/songs/");
-  if (!response.ok) {
-    throw new Error(`Could not load song folders (${response.status})`);
-  }
-  let songData = await response.text();
-  let div = document.createElement("div");
-  div.innerHTML = songData;
-
-  let anchors = div.getElementsByTagName("a");
-  let array = Array.from(anchors);
-  for (let index = 0; index < array.length; index++) {
-    const element = array[index];
- 
-    if (element.href.includes("/songs/")) {
-      let folder = element.href.split("/").filter(Boolean).pop();
+  for (const folder of albumFolders) {
       let cards = document.querySelector(".cards")
       let response = await fetch(`/songs/${folder}/info.json`);
       if (!response.ok) {
@@ -124,7 +101,6 @@ async function displayAlbum() {
                     <span>${songData.description}</span>
                 </div>
       `
-    }
   };
   // Load a category playlist when its card is selected.
   Array.from(document.getElementsByClassName("card")).forEach((e) => {
