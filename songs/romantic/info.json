@@ -1,5 +1,10 @@
 {
     "tittle" : "Romantic",
     "description": "Romantic songs",
-    "imageSrc":"images/romantic.png" 
+    "imageSrc":"images/romantic.png",
+    "songs": [
+        "leberch-romantic-584475.mp3",
+        "leberch-romantic-584478.mp3",
+        "paulyudin-romantic-romantic-music-493488.mp3"
+    ]
 }
